@@ -40,6 +40,13 @@ async function run() {
       const data = await cursor.toArray()
       res.send(data)
     })
+    // get my spots list 
+    app.get('/my-spots/:email', async (req, res) => {
+      const query = { userEmail: req.params.email }
+      const cursor = spotsCollection.find(query)
+      const data = await cursor.toArray()
+      res.send(data)
+    })
 
     // add new spot
     app.post('/add-spot', async (req, res) => {

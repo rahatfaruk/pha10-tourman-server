@@ -79,9 +79,16 @@ async function run() {
     // add new spot
     app.post('/add-spot', async (req, res) => {
       const newSpot = req.body
-      console.log(newSpot);
       const spot = await spotsCollection.insertOne(newSpot)
       res.send(spot)
+    })
+
+    // delete my spot
+    app.delete('/my-spot/:id', async (req, res) => {
+      const id = req.params.id 
+      const query = { _id: new ObjectId(id) }
+      const result = spotsCollection.deleteOne(query)
+      res.send(result)
     })
 
     // Send a ping to confirm a successful connection

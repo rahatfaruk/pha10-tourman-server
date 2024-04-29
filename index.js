@@ -1,7 +1,7 @@
 const express = require('express')
-require('dotenv').config()
 const cors = require('cors')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
+require('dotenv').config()
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -38,6 +38,12 @@ async function run() {
     app.get('/home-spots', async (req, res) => {
       const query = { userEmail: 'home@mail.com' }
       const cursor = spotsCollection.find(query)
+      const data = await cursor.toArray()
+      res.send(data)
+    })
+    // get all tourists spot
+    app.get('/all-tourists-spot', async (req, res) => {
+      const cursor = spotsCollection.find()
       const data = await cursor.toArray()
       res.send(data)
     })

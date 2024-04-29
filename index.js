@@ -33,7 +33,13 @@ async function run() {
     app.get('/', (req, res) => {
       res.send('Welcome!')
     })
-    
+    // homepage tourist spots (max 6)
+    app.get('/home-spots', async (req, res) => {
+      const query = { userEmail: 'home@mail.com' }
+      const cursor = spotsCollection.find(query)
+      const data = await cursor.toArray()
+      res.send(data)
+    })
 
     // add new spot
     app.post('/add-spot', async (req, res) => {

@@ -90,6 +90,18 @@ async function run() {
       const result = spotsCollection.deleteOne(query)
       res.send(result)
     })
+    
+    // update spot
+    app.put('/update-spot/:id', async (req, res) => {
+      const id = req.params.id 
+      const newSpot = req.body
+
+      const filter = { _id: new ObjectId(id) }
+      const updateDoc = { $set: newSpot }
+
+      const result = await spotsCollection.updateOne(filter, updateDoc)
+      res.send(result)
+    })
 
     // Send a ping to confirm a successful connection
     await database.command({ ping: 1 });

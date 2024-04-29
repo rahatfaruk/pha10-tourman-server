@@ -28,6 +28,7 @@ async function run() {
     // ref to db and collection
     const database = client.db('pha10')
     const spotsCollection = database.collection('spots')
+    const countriesCollection = database.collection('countries')
 
     // ## routes
     app.get('/', (req, res) => {
@@ -37,6 +38,12 @@ async function run() {
     app.get('/home-spots', async (req, res) => {
       const query = { userEmail: 'home@mail.com' }
       const cursor = spotsCollection.find(query)
+      const data = await cursor.toArray()
+      res.send(data)
+    })
+    // get countries
+    app.get('/countries', async (req, res) => {
+      const cursor = countriesCollection.find()
       const data = await cursor.toArray()
       res.send(data)
     })

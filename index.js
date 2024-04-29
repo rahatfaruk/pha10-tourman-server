@@ -1,7 +1,7 @@
 const express = require('express')
+require('dotenv').config()
 const cors = require('cors')
 const { MongoClient, ServerApiVersion } = require('mongodb')
-require('dotenv').config()
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -30,10 +30,17 @@ async function run() {
     const spotsCollection = database.collection('spots')
 
     // ## routes
-    app.get('/', async (req, res) => {
-      const cursor = spotsCollection.find()
-      const data = await cursor.toArray()
-      res.send(data)
+    app.get('/', (req, res) => {
+      res.send('Welcome!')
+    })
+    
+
+    // add new spot
+    app.post('/add-spot', async (req, res) => {
+      const newSpot = req.body
+      console.log(newSpot);
+      const spot = await spotsCollection.insertOne(newSpot)
+      res.send(spot)
     })
 
     // Send a ping to confirm a successful connection

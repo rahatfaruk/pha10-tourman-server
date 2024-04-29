@@ -47,6 +47,14 @@ async function run() {
       const data = await cursor.toArray()
       res.send(data)
     })
+    // get country-spots
+    app.get('/country-spots/:countryName', async (req, res) => {
+      const countryName = req.params.countryName.toLowerCase() 
+      const query = { countryName:countryName }
+      const cursor = spotsCollection.find(query)
+      const data = await cursor.toArray()
+      res.send(data)
+    })
     // get spot-details
     app.get('/spot-details/:id', async (req, res) => {
       const id = req.params.id 

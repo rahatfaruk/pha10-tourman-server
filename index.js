@@ -1,7 +1,7 @@
 const express = require('express')
+require('dotenv').config()
 const cors = require('cors')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
-require('dotenv').config()
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -17,13 +17,14 @@ const client = new MongoClient(mongoUri, {
 })
 
 // middlewares
-app.use( cors() )
+// app.use( cors() ) // modify on production mode
+app.use( cors({origin: ['http://localhost:5173', "https://pha10-tourism-manage.web.app"]}) )
 app.use( express.json() )
 
 async function run() {
   try {
-    // connect to server 
-    await client.connect()
+    // connect to server (comment on production mode)
+    // await client.connect()
 
     // ref to db and collection
     const database = client.db('pha10')
@@ -103,9 +104,9 @@ async function run() {
       res.send(result)
     })
 
-    // Send a ping to confirm a successful connection
-    await database.command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!")
+    // Send a ping to confirm a successful connection (comment on production mode)
+    // await database.command({ ping: 1 });
+    // console.log("Pinged your deployment. You successfully connected to MongoDB!")
   } 
   catch (error) {
     console.log(error);

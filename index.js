@@ -44,7 +44,17 @@ async function run() {
     })
     // get all tourists spot
     app.get('/all-tourists-spot', async (req, res) => {
-      const cursor = spotsCollection.find()
+      const query = req.query;
+
+      // create options to sort array
+      let options = {}
+      if (query.sortBy === 'cost-asc') {
+        options.sort = { averageCost: 1 }
+      } else if (query.sortBy === 'cost-desc') {
+        options.sort = { averageCost: -1 }
+      }
+
+      let cursor = spotsCollection.find({}, options)
       const data = await cursor.toArray()
       res.send(data)
     })
